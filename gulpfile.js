@@ -1,7 +1,9 @@
 var gulp = require('gulp'),
     bundle = require('gulp-bundle-assets'),
     ejs = require("gulp-ejs"),
-    html2js = require('gulp-html2js');
+    html2js = require('gulp-html2js'),
+    server = require('gulp-develop-server'),
+    open = require('gulp-open');
 
 
 gulp.task('bundle', function () {
@@ -40,4 +42,26 @@ gulp.task('templates', function () {
         .pipe(gulp.dest('./app/templates'));
 });
 
-gulp.task('default', ['copyStatic', 'templates','bundle', 'pageCompile']);
+gulp.task('runServer', ['buildProject'], function (callback) {
+    server.listen({
+        path : './node_modules/http-server/bin/http-server',
+        args :  ['-a', 'localhost', '-p', '8000', '-c-1', './app']
+    });
+    setTimeout(function () {
+        callback(null);
+    }, 500);
+});
+
+gulp.task('buildProject', ['copyStatic', 'templates','bundle', 'pageCompile'], function (callback) {
+    callback(null);
+});
+
+gulp.task('runApplication', ['runServer'], function () {
+    gulp.src(__filename)
+        .pipe(open({
+            app : 'chrome',
+            uri : 'http://localhost:8000/'
+        }));
+});
+
+gulp.task('default', ['buildProject', 'runServer', 'runApplication']);
