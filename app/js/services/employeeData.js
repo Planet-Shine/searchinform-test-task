@@ -53,7 +53,7 @@ angular
                             localStorageService.set('employeeData', employeeData);
                         }
                         employeeData = margeData(employeeData);
-                        callback(margeData(employeeData));
+                        callback(employeeData);
                     });
             }
         };
