@@ -6,16 +6,16 @@ var gulp = require('gulp'),
     open = require('gulp-open');
 
 
-gulp.task('bundle', function () {
+gulp.task('bundle', ['templates'], function () {
     return gulp.src('./bundle.config.js')
         .pipe(bundle())
         .pipe(bundle.results({
             pathPrefix: './static/'
-        })) // arg is destination of bundle.result.json
+        }))
         .pipe(gulp.dest('./app/static'));
 });
 
-gulp.task('pageCompile', function () {
+gulp.task('pageCompile', ['bundle'], function () {
     var bundleResult =  require('./bundle.result.json');
     return gulp.src("./app/templates/*.ejs")
         .pipe(ejs({
@@ -52,7 +52,7 @@ gulp.task('runServer', ['buildProject'], function (callback) {
     }, 500);
 });
 
-gulp.task('buildProject', ['copyStatic', 'templates','bundle', 'pageCompile'], function (callback) {
+gulp.task('buildProject', ['pageCompile'], function (callback) {
     callback(null);
 });
 
@@ -64,4 +64,4 @@ gulp.task('runApplication', ['runServer'], function () {
         }));
 });
 
-gulp.task('default', ['buildProject', 'runServer', 'runApplication']);
+gulp.task('default', ['templates', 'pageCompile', 'runApplication', 'runServer', 'buildProject', 'runApplication']);

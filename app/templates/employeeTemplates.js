@@ -26,7 +26,12 @@ $templateCache.put("js/employee/employee.template.html","\n" +
     "\n" +
     "\n" +
     "<div class=\"page-header jumbotron\">\n" +
-    "    <h1>Сотрудник</h1>\n" +
+    "    <h1 ng-if=\"$ctrl.employee\">\n" +
+    "        Сотрудник\n" +
+    "    </h1>\n" +
+    "    <h1 ng-if=\"!$ctrl.employee\">\n" +
+    "        Нет такого сотрудника\n" +
+    "    </h1>\n" +
     "</div>\n" +
     "\n" +
     "<div class=\"employee-navbar\">\n" +
@@ -35,17 +40,18 @@ $templateCache.put("js/employee/employee.template.html","\n" +
     "            <a class=\"navbar-brand\" href=\"#!/departments/\">\n" +
     "                Отделы\n" +
     "            </a>\n" +
-    "            <a class=\"navbar-brand\" href=\"#!/departments/{{$ctrl.employee.department.id}}/employees\">\n" +
-    "                {{$ctrl.employee.department.name}}\n" +
+    "            <a ng-if=\"$ctrl.department\" class=\"navbar-brand\" href=\"#!/departments/{{$ctrl.department.id}}/employees\">\n" +
+    "                {{$ctrl.department.name}}\n" +
     "            </a>\n" +
     "        </div>\n" +
     "    </nav>\n" +
     "</div>\n" +
     "\n" +
-    "<div class=\"employee-catalog container\">\n" +
-    "    <div class=\"media employee-item\">\n" +
+    "<div ng-if=\"$ctrl.employee\" class=\"employee-catalog container\">\n" +
+    "    <div class=\"media employee-item\" ng-if=\"$ctrl.employee\">\n" +
     "        <div class=\"media-left\">\n" +
-    "            <img class=\"avatar-image\" data-ng-src=\"{{ $ctrl.employee.photo }}\">\n" +
+    "            <img class=\"avatar-image\" data-ng-src=\"{{ $ctrl.photoData }}\">\n" +
+    "            <input type=\"file\" ng-model=\"$ctrl.avatarUrl\" onchange=\"angular.element(this).scope().uploadImage(this.files, this.value)\" />\n" +
     "        </div>\n" +
     "        <div class=\"media-body\">\n" +
     "            <h4>{{ $ctrl.employee.name }}</h4>\n" +
@@ -53,7 +59,7 @@ $templateCache.put("js/employee/employee.template.html","\n" +
     "                <span class=\"field-hint\">Телефон:</span> {{ $ctrl.employee.phone }}\n" +
     "            </p>\n" +
     "            <p>\n" +
-    "                <span class=\"field-hint\">Отдел:</span> {{ $ctrl.employee.department.name }}\n" +
+    "                <span class=\"field-hint\">Отдел:</span> {{ $ctrl.department.name }}\n" +
     "            </p>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -65,8 +71,13 @@ $templateCache.put("js/employee/employee.template.html","\n" +
 
 $templateCache.put("js/employee/employeeList.template.html","\n" +
     "<div class=\"page-header jumbotron\">\n" +
-    "    <h1>Сотрудники</h1>\n" +
-    "    <h2>отдела «{{$ctrl.department.name}}»</h2>\n" +
+    "    <div ng-if=\"$ctrl.department\">\n" +
+    "        <h1>Сотрудники</h1>\n" +
+    "        <h2>отдела «{{$ctrl.department.name}}»</h2>\n" +
+    "    </div>\n" +
+    "    <h2 ng-if=\"!$ctrl.department\">\n" +
+    "        Нет такого отдела\n" +
+    "    </h2>\n" +
     "</div>\n" +
     "\n" +
     "<div class=\"employee-navbar\">\n" +
@@ -77,26 +88,25 @@ $templateCache.put("js/employee/employeeList.template.html","\n" +
     "    </nav>\n" +
     "</div>\n" +
     "\n" +
-    "<div class=\"employee-catalog container\">\n" +
+    "<div ng-if=\"$ctrl.department\" class=\"employee-catalog container\">\n" +
     "    <h3 class=\"official-info-header\" ng-if=\"!$ctrl.employeeList.length\">Отдел пуст</h3>\n" +
+    "    <h3 class=\"employee-count\">{{ $ctrl.employeeList.length }} сотрудник{{ ($ctrl.employeeList.length > 10 && $ctrl.employeeList.length < 19) ? 'ов' : {\n" +
+    "            0 : 'ов',\n" +
+    "            1 : '',\n" +
+    "            2 : 'а',\n" +
+    "            3 : 'а',\n" +
+    "            4 : 'а',\n" +
+    "            5 : 'ов',\n" +
+    "            6 : 'ов',\n" +
+    "            7 : 'ов',\n" +
+    "            8 : 'ов',\n" +
+    "            9 : 'ов',\n" +
+    "        }[$ctrl.employeeList.length % 10] }}:</h3>\n" +
     "    <ul>\n" +
     "        <li class=\"media employee-item col-lg-4 col-md-6 col-sm-6\" ng-repeat=\"employee in $ctrl.employeeList\">\n" +
-    "            <!-- <div alt=\"{{employee.name}}\"\n" +
-    "                 style=\"width: 150px; height:150px;\"\n" +
-    "                 ng-style=\"{'background-image' : 'url(\\'' + employee.photo.data + '\\')'}\">\n" +
-    "            </div> -->\n" +
-    "            <div class=\"media-left\">\n" +
-    "                <a href=\"#!/employees/{{employee.id}}\">\n" +
-    "                    <img class=\"avatar-image\" data-ng-src=\"{{employee.photo}}\">\n" +
-    "                </a>\n" +
-    "            </div>\n" +
     "            <div class=\"media-body\">\n" +
     "                <h4>{{employee.name}}</h4>\n" +
-    "                <p>\n" +
-    "                    <span class=\"field-hint\">Телефон:</span> {{employee.phone}}\n" +
-    "                </p>\n" +
-    "            </div>\n" +
-    "            <div class=\"media-right\">\n" +
+    "            </div><div class=\"media-right\">\n" +
     "                <a href=\"#!/employees/{{employee.id}}\"\n" +
     "                   class=\"btn btn-default pull-right\" >\n" +
     "                    <div class=\"glyphicon glyphicon-file\"></div>\n" +
