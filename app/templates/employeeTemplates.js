@@ -5,6 +5,23 @@ catch(err) { app = angular.module("employeeTemplates", []); }
 app.run(["$templateCache", function($templateCache) {
 "use strict";
 
+$templateCache.put("js/department/departmentList.template.html","\n" +
+    "<div class=\"page-header jumbotron\">\n" +
+    "    <h1>Отделы</h1>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div class=\"employee-catalog container\">\n" +
+    "    <ul>\n" +
+    "        <li class=\"col-lg-4 col-md-6 col-sm-6\" ng-repeat=\"department in $ctrl.departmentList\">\n" +
+    "            <a class=\"department-button\" href=\"#!/departments/{{department.id}}/employees\">\n" +
+    "                <span>{{department.name}}</span>\n" +
+    "            </a>\n" +
+    "        </li>\n" +
+    "    </ul>\n" +
+    "</div>\n" +
+    "<footer class=\"footer\">\n" +
+    "</footer>")
+
 $templateCache.put("js/avatarUploader/avatarUploader.template.html","<div class=\"avatar-image-input-box\">\n" +
     "    <input accept=\".gif,.bmp,.jpg,.jpeg,.png,.svg\"\n" +
     "           type=\"file\"\n" +
@@ -23,23 +40,6 @@ $templateCache.put("js/avatarUploader/avatarUploader.template.html","<div class=
     "<span class=\"error-message\" ng-if=\"$ctrl.isNotValidSize\">\n" +
     "    Недопустимый размер. Превышено {{$ctrl.maxAvatarKBSize}}КБ.\n" +
     "</span>")
-
-$templateCache.put("js/department/departmentList.template.html","\n" +
-    "<div class=\"page-header jumbotron\">\n" +
-    "    <h1>Отделы</h1>\n" +
-    "</div>\n" +
-    "\n" +
-    "<div class=\"employee-catalog container department-list-container\">\n" +
-    "    <ul>\n" +
-    "        <li ng-repeat=\"department in $ctrl.departmentList\">\n" +
-    "            <a class=\"department-button\" href=\"#!/departments/{{department.id}}/employees\">\n" +
-    "                <span>{{department.name}}</span>\n" +
-    "            </a>\n" +
-    "        </li>\n" +
-    "    </ul>\n" +
-    "</div>\n" +
-    "<footer class=\"footer\">\n" +
-    "</footer>")
 
 $templateCache.put("js/employee/employee.template.html","\n" +
     "\n" +
@@ -100,14 +100,14 @@ $templateCache.put("js/employee/employeeList.template.html","\n" +
     "</div>\n" +
     "\n" +
     "<div class=\"employee-navbar\">\n" +
-    "    <nav class=\"navbar navbar-default container employee-navbar\">\n" +
+    "    <nav class=\"navbar navbar-default container employee-navbar department-list-container\">\n" +
     "        <div class=\"container-fluid\">\n" +
     "            <a class=\"navbar-brand\" href=\"#!/departments/\">Отделы</a>\n" +
     "        </div>\n" +
     "    </nav>\n" +
     "</div>\n" +
     "\n" +
-    "<div ng-if=\"$ctrl.department\" class=\"employee-catalog container\">\n" +
+    "<div ng-if=\"$ctrl.department\" class=\"employee-catalog container department-list-container\">\n" +
     "    <h3 class=\"official-info-header\" ng-if=\"!$ctrl.employeeList.length\">Отдел пуст</h3>\n" +
     "    <h3 class=\"employee-count\">{{ $ctrl.employeeList.length }} сотрудник{{ ($ctrl.employeeList.length > 10 && $ctrl.employeeList.length < 19) ? 'ов' : {\n" +
     "            0 : 'ов',\n" +
@@ -122,14 +122,15 @@ $templateCache.put("js/employee/employeeList.template.html","\n" +
     "            9 : 'ов',\n" +
     "        }[$ctrl.employeeList.length % 10] }}:</h3>\n" +
     "    <ul>\n" +
-    "        <li class=\"media employee-item col-lg-4 col-md-6 col-sm-6\" ng-repeat=\"employee in $ctrl.employeeList\">\n" +
-    "            <div class=\"media-body\">\n" +
-    "                <h4>{{employee.name}}</h4>\n" +
-    "            </div><div class=\"media-right\">\n" +
+    "        <li class=\"media employee-item\" ng-repeat=\"employee in $ctrl.employeeList\">\n" +
+    "            <div class=\"media-left\">\n" +
     "                <a href=\"#!/employees/{{employee.id}}\"\n" +
     "                   class=\"btn btn-default pull-right\" >\n" +
     "                    <div class=\"glyphicon glyphicon-file\"></div>\n" +
     "                </a>\n" +
+    "            </div>\n" +
+    "            <div class=\"media-body\">\n" +
+    "                <h4>{{employee.name}}</h4>\n" +
     "            </div>\n" +
     "        </li>\n" +
     "    </ul>\n" +

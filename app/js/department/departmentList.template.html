@@ -3,9 +3,9 @@
     <h1>Отделы</h1>
 </div>
 
-<div class="employee-catalog container department-list-container">
+<div class="employee-catalog container">
     <ul>
-        <li ng-repeat="department in $ctrl.departmentList">
+        <li class="col-lg-4 col-md-6 col-sm-6" ng-repeat="department in $ctrl.departmentList">
             <a class="department-button" href="#!/departments/{{department.id}}/employees">
                 <span>{{department.name}}</span>
             </a>
