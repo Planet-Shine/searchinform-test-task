@@ -25,9 +25,25 @@
 
 <div ng-if="$ctrl.employee" class="employee-catalog container">
     <div class="media employee-item" ng-if="$ctrl.employee">
-        <div class="media-left">
+        <div class="media-left avatar">
             <img class="avatar-image" data-ng-src="{{ $ctrl.photoData }}">
-            <input type="file" ng-model="$ctrl.avatarUrl" onchange="angular.element(this).scope().uploadImage(this.files, this.value)" />
+            <div class="avatar-image-input-box">
+                <input accept=".gif,.bmp,.jpg,.jpeg,.png,.svg"
+                       type="file"
+                       ng-model="$ctrl.avatarUrl"
+                       onchange="angular.element(this).scope().uploadImage(this.files)" />
+            </div>
+            <button type="button"
+                    class="avatar-image-button btn btn-default btn-s"
+                    onclick="$(this).closest('.avatar').find('input[type=\'file\']').click()">
+                <span class="glyphicon glyphicon-upload"></span> аватар
+            </button>
+            <span class="error-message" ng-if="$ctrl.isNotValidType">
+                Недопустимый тип файла.
+            </span>
+            <span class="error-message" ng-if="$ctrl.isNotValidSize">
+                Недопустимый размер. Превышено {{$ctrl.maxAvatarKBSize}}КБ.
+            </span>
         </div>
         <div class="media-body">
             <h4>{{ $ctrl.employee.name }}</h4>
