@@ -29,6 +29,8 @@ module.exports = {
                 './app/js/app.module.js',
                 './app/js/app.config.js',
                 './app/js/services/employeeData.js',
+                './app/js/avatarUploader/avatarUploader.module.js',
+                './app/js/avatarUploader/avatarUploader.component.js',
                 './app/js/department/departmentList.module.js',
                 './app/js/department/departmentList.component.js',
                 './app/js/employee/employee.module.js',

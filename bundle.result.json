@@ -1,7 +1,7 @@
 {
   "main": {
-    "scripts": "<script src='./static/main-b2baa8a8f3.js' type='text/javascript'></script>",
-    "styles": "<link href='./static/main-3fac000ab6.css' media='all' rel='stylesheet' type='text/css'/>"
+    "scripts": "<script src='./static/main-f21ee7156b.js' type='text/javascript'></script>",
+    "styles": "<link href='./static/main-5805f5e9f7.css' media='all' rel='stylesheet' type='text/css'/>"
   },
   "vendor": {
     "scripts": "<script src='./static/vendor-93fb63b5d5.js' type='text/javascript'></script>"

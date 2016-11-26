@@ -5,14 +5,33 @@ catch(err) { app = angular.module("employeeTemplates", []); }
 app.run(["$templateCache", function($templateCache) {
 "use strict";
 
+$templateCache.put("js/avatarUploader/avatarUploader.template.html","<div class=\"avatar-image-input-box\">\n" +
+    "    <input accept=\".gif,.bmp,.jpg,.jpeg,.png,.svg\"\n" +
+    "           type=\"file\"\n" +
+    "           ng-model=\"$ctrl.avatarUrl\"\n" +
+    "           onchange=\"angular.element(this).scope().uploadImage(this.files)\" />\n" +
+    "</div>\n" +
+    "<button type=\"button\"\n" +
+    "        class=\"avatar-image-button btn btn-default btn-s\"\n" +
+    "        onclick=\"$(this).closest('avatar-uploader').find('input[type=\\'file\\']').click()\">\n" +
+    "    <span class=\"glyphicon glyphicon-upload\"></span> аватар\n" +
+    "</button>\n" +
+    "\n" +
+    "<span class=\"error-message\" ng-if=\"$ctrl.isNotValidType\">\n" +
+    "    Недопустимый тип файла.\n" +
+    "</span>\n" +
+    "<span class=\"error-message\" ng-if=\"$ctrl.isNotValidSize\">\n" +
+    "    Недопустимый размер. Превышено {{$ctrl.maxAvatarKBSize}}КБ.\n" +
+    "</span>")
+
 $templateCache.put("js/department/departmentList.template.html","\n" +
     "<div class=\"page-header jumbotron\">\n" +
     "    <h1>Отделы</h1>\n" +
     "</div>\n" +
     "\n" +
-    "<div class=\"employee-catalog container\">\n" +
+    "<div class=\"employee-catalog container department-list-container\">\n" +
     "    <ul>\n" +
-    "        <li class=\"col-lg-3 col-md-4 col-sm-6\" ng-repeat=\"department in $ctrl.departmentList\">\n" +
+    "        <li ng-repeat=\"department in $ctrl.departmentList\">\n" +
     "            <a class=\"department-button\" href=\"#!/departments/{{department.id}}/employees\">\n" +
     "                <span>{{department.name}}</span>\n" +
     "            </a>\n" +
@@ -51,23 +70,7 @@ $templateCache.put("js/employee/employee.template.html","\n" +
     "    <div class=\"media employee-item\" ng-if=\"$ctrl.employee\">\n" +
     "        <div class=\"media-left avatar\">\n" +
     "            <img class=\"avatar-image\" data-ng-src=\"{{ $ctrl.photoData }}\">\n" +
-    "            <div class=\"avatar-image-input-box\">\n" +
-    "                <input accept=\".gif,.bmp,.jpg,.jpeg,.png,.svg\"\n" +
-    "                       type=\"file\"\n" +
-    "                       ng-model=\"$ctrl.avatarUrl\"\n" +
-    "                       onchange=\"angular.element(this).scope().uploadImage(this.files)\" />\n" +
-    "            </div>\n" +
-    "            <button type=\"button\"\n" +
-    "                    class=\"avatar-image-button btn btn-default btn-s\"\n" +
-    "                    onclick=\"$(this).closest('.avatar').find('input[type=\\'file\\']').click()\">\n" +
-    "                <span class=\"glyphicon glyphicon-upload\"></span> аватар\n" +
-    "            </button>\n" +
-    "            <span class=\"error-message\" ng-if=\"$ctrl.isNotValidType\">\n" +
-    "                Недопустимый тип файла.\n" +
-    "            </span>\n" +
-    "            <span class=\"error-message\" ng-if=\"$ctrl.isNotValidSize\">\n" +
-    "                Недопустимый размер. Превышено {{$ctrl.maxAvatarKBSize}}КБ.\n" +
-    "            </span>\n" +
+    "            <avatar-uploader on-new-avatar=\"$ctrl.setNewPhoto(avatar)\"></avatar-uploader>\n" +
     "        </div>\n" +
     "        <div class=\"media-body\">\n" +
     "            <h4>{{ $ctrl.employee.name }}</h4>\n" +
